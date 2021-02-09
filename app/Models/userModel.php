@@ -39,13 +39,23 @@ class userModel extends Database {
 
     }
 
-    public function loginUserModel($username) {
+    public function loginUserModel($username, $password) {
 
         if ($this->query("SELECT * FROM users WHERE username = ?", [$username])) {
-            return true;
-        }
-        else {
-            return false;
+            if ($this->rowCount() > 0) {
+                $row = $this->fetch();
+                $userPassword = $row->password;
+                $userId = $row->id;
+                if (password_verify($password, $userPassword)) {
+                    return ['status' => 'ok', 'data' => $userId];
+                }
+                else {
+                    return ['status' => 'passwordNotMatched'];
+                }
+            }
+            else {
+                return ['status' => 'usernameNotFound'];
+            }
         }
 
     }

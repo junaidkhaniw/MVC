@@ -56,6 +56,49 @@ class Framework {
 
     }
 
+    public function setSession($sessionName, $sessionValue) {
+        if (!empty($sessionName) && !empty($sessionValue)) {
+            $_SESSION[$sessionName] = $sessionValue;
+        }
+
+    }
+
+    public function getSession($sessionName) {
+        if (!empty($sessionName)) {
+            return $_SESSION[$sessionName];
+        }
+
+    }
+
+    public function unsetSession($sessionName) {
+        if (!empty($sessionName)) {
+            unset($_SESSION[$sessionName]);
+        }
+
+    }
+
+    public function destroySession() {
+        session_destroy();
+    }
+
+    public function setFlash($sessionName, $msg) {
+        if (!empty($sessionName) && !empty($msg)) {
+            $_SESSION[$sessionName] = $msg;
+        }
+    }
+
+    public function flash($sessionName, $className) {
+        if (!empty($sessionName) && !empty($className) && isset($_SESSION[$sessionName])) {
+            $msg = $_SESSION[$sessionName];
+            echo "<div class='". $className ."'>". $msg ."</div>'";
+            unset($_SESSION[$sessionName]);
+        }
+    }
+
+    public function redirect($path) {
+        header("Location:" . URLROOT . "/" . $path);
+    }
+
 }
 
 ?>

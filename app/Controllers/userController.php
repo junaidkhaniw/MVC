@@ -60,13 +60,20 @@ class userController extends Framework {
                 $password,
             ];
             if ($this->userModel->registerUserModel($data)) {
-                echo "Submited";
+
+                $this->setFlash('accountCreated', 'Your account has been created');
+                $this->setSession('user_id', 5);
+                $this->redirect("userController/loginUsers");
             }
 
         }
         else {
             $this->view("registerUser", $userData);
         }
+    }
+
+    public function loginUsers() {
+        $this->view("loginUser");
     }
 
     public function loginUserController() {
@@ -81,11 +88,6 @@ class userController extends Framework {
         if (empty($userData["username"])) {
             $userData["usernameError"] = "**Username is required**";
         }
-        else {
-            if (!$this->userModel->checkUsername($userData["username"])) {
-                $userData["usernameError"] = "**Invalid Username**";
-            }
-        }
 
         if (empty($userData["password"])) {
             $userData["passwordError"] = "**Password is required**";
@@ -93,20 +95,23 @@ class userController extends Framework {
 
         if (empty($userData["usernameError"]) && empty($userData["passwordError"])) {
             
-            $data = [
-                $userData["username"],
-                $password,
-            ];
-            if ($this->userModel->loginUserModel($data)) {
-                echo "Submited";
+            $result = $this->userModel->loginUserModel($userData['username'], $userData['password']);
+            if ($result['status'] === 'usernameNotFound') {
+                $userData["usernameError"] = "**Invalid Username**";
+                $this->view("loginUser", $userData);
+            }
+            elseif ($result['status'] === 'passwordNotMatched') {
+                $this->view("loginUser", $userData);
+            }
+            elseif ($result['status'] === 'ok') {
+                $this->setSession('userId', $result['data']);
+                $this->redirect('profile');
             }
 
         }
         else {
             $this->view("loginUser", $userData);
         }
-
-        $this->view("loginUser");
         
     }
 

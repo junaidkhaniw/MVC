@@ -4,17 +4,29 @@
         
     <div class="container">
 
+        <?php $this->flash('accountCreated', 'alert alert-success') ?>
+
         <h2>It's now or never</h2>
         <h1>Come on , Join us!</h1>
     
-        <form action="http://localhost/mvc/userController/loginUserController" id="join-us">
+        <form action="http://localhost/mvc/userController/loginUserController" method="post" id="join-us">
             <div class="fields">
                 <span>
-                    <input name="username" placeholder="Userame" type="text" />
+                    <input name="username" placeholder="Userame" type="text" value="<?php if(!empty($data["username"])) { echo $data["username"]; } ?>" />
+                    <div class="error red">
+                        <?php if (!empty($data["usernameError"])) {
+                            echo $data["usernameError"];
+                        } ?>
+                    </div>
                 </span>
                 <br />
                 <span>
-                    <input name="password" placeholder="Password" type="password" />
+                    <input name="password" placeholder="Password" type="password" value="<?php if(!empty($data["password"])) { echo $data["password"]; } ?>" />
+                    <div class="error red">
+                        <?php if (!empty($data["passwordError"])) {
+                            echo $data["passwordError"];
+                        } ?>
+                    </div>
                 </span>
             </div>
             <div class="submit">
