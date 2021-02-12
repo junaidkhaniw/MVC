@@ -3,6 +3,10 @@
 class userController extends Framework {
 
     public function __construct() {
+
+        if ($this->getSession("userId")) {
+            $this->redirect("profile");
+        }
         $this->helper("link");
         $this->userModel = $this->model("userModel");
     }
@@ -52,17 +56,16 @@ class userController extends Framework {
 
         if (empty($userData["nameError"]) && empty($userData["usernameError"]) && empty($userData["emailError"]) && empty($userData["passwordError"])) {
             
-            $password = password_hash($userData["password"], PASSWORD_DEFAULT);
+            $hashed_password = password_hash($userData["password"], PASSWORD_DEFAULT);
             $data = [
                 $userData["name"],
                 $userData["username"],
                 $userData["email"],
-                $password,
+                $hashed_password,
             ];
             if ($this->userModel->registerUserModel($data)) {
 
                 $this->setFlash('accountCreated', 'Your account has been created');
-                $this->setSession('user_id', 5);
                 $this->redirect("userController/loginUsers");
             }
 
@@ -81,26 +84,27 @@ class userController extends Framework {
         $userData = [
             "username"          => $this->input("username"),
             "password"          => $this->input("password"),
-            "usernameError"     => "",
-            "passwordError"     => ""
+            "loginUsernameError"     => "",
+            "loginPasswordError"     => ""
         ];
 
         if (empty($userData["username"])) {
-            $userData["usernameError"] = "**Username is required**";
+            $userData["loginUsernameError"] = "**Username is required**";
         }
 
         if (empty($userData["password"])) {
-            $userData["passwordError"] = "**Password is required**";
+            $userData["loginPasswordError"] = "**Password is required**";
         }
 
-        if (empty($userData["usernameError"]) && empty($userData["passwordError"])) {
+        if (empty($userData["loginUsernameError"]) && empty($userData["loginPasswordError"])) {
             
             $result = $this->userModel->loginUserModel($userData['username'], $userData['password']);
             if ($result['status'] === 'usernameNotFound') {
-                $userData["usernameError"] = "**Invalid Username**";
+                $userData["loginUsernameError"] = "**Invalid Username**";
                 $this->view("loginUser", $userData);
             }
             elseif ($result['status'] === 'passwordNotMatched') {
+                $userData["loginPasswordError"] = "**Invalid Password**";
                 $this->view("loginUser", $userData);
             }
             elseif ($result['status'] === 'ok') {
@@ -112,8 +116,11 @@ class userController extends Framework {
         else {
             $this->view("loginUser", $userData);
         }
-        
     }
+
+        
+        
+    
 
     public function viewUserController() {
 

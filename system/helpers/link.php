@@ -7,4 +7,11 @@ function linkCSS($cssPath) {
 
 }
 
+function linkJS($jsPath) {
+    
+    $url = URLROOT . "/" . $jsPath;
+    echo '<script src="' .$url. '"></script>';
+
+}
+
 ?>

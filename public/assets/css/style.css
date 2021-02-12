@@ -79,12 +79,22 @@ input{
   height:34px;
   vertical-align:middle;
   position:relative;
-  bottom:14px;
-  right:9px;
   border-radius:22px;
-  width:220px;
+  width:500px;
   box-sizing:border-box;
   padding:0 18px; 
+}
+
+textarea{
+  border: none;
+    outline: none;
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    border-radius: 20px;
+    width: 500px;
+    box-sizing: border-box;
+    padding: 15px 22px;
 }
 
 input[type="submit"]{ 
@@ -102,4 +112,25 @@ input[type="submit"]{
 
 .red {
   color: red;
+}
+
+#example_wrapper {
+  padding: 20px;
+    background: #fff;
+}
+
+.delete-form {
+  margin-top: 0;
+  position: relative;
+    top: -26px;
+    left: -8px;
+    display: inline;
+}
+
+.delete-form>input[type="submit"]{ 
+  background:#dc3545 !important;
+  width: 80px;
+  height: 37px;
+  cursor: pointer;
+  padding: 0px;
 }

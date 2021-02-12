@@ -11,7 +11,7 @@
             <div class="fields">
                 <span>
                     <input name="name" placeholder="Name" type="text" value="<?php if(!empty($data["name"])) { echo $data["name"]; } ?>" />
-                    <div class="error red red">
+                    <div class="error red">
                         <?php if (!empty($data["nameError"])) {
                             echo $data["nameError"];
                         } ?>
@@ -51,6 +51,6 @@
         </form>
 
     </div>
-
+    <?php include "inc/footer.php"; ?>
 </body>
 </html> 

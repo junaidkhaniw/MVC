@@ -8,6 +8,6 @@
             <p><?php echo $user->email; ?></p>
         <?php endforeach ?>
     </div>
-
+    <?php include "inc/footer.php"; ?>
 </body>
 </html> 

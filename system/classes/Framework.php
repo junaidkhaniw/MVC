@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 
 class Framework {
 
@@ -43,6 +44,7 @@ class Framework {
 
     }
 
+    // All our public files accessable here from helpers folder
     public function helper($helperName) {
         
         if (file_exists("../system/helpers/" . $helperName . ".php")) {
@@ -56,6 +58,10 @@ class Framework {
 
     }
 
+    ////////////////////////////
+    ///////Sessions Start///////
+    ////////////////////////////
+    
     public function setSession($sessionName, $sessionValue) {
         if (!empty($sessionName) && !empty($sessionValue)) {
             $_SESSION[$sessionName] = $sessionValue;
@@ -94,6 +100,10 @@ class Framework {
             unset($_SESSION[$sessionName]);
         }
     }
+
+    //////////////////////////
+    ///////Sessions End///////
+    //////////////////////////
 
     public function redirect($path) {
         header("Location:" . URLROOT . "/" . $path);
