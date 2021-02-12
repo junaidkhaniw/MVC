@@ -57,6 +57,29 @@ class postModel extends Database {
 
     }
 
+    public function viewCommentsPostModel($id) {
+        
+        if ($this->query("SELECT * FROM comments WHERE postId = ?", [$id])) {
+            return $this->fetchall();
+        }
+        else {
+            echo "no";
+        }
+    }
+
+    public function createCommentPostModel($comment, $postId, $userId) {
+        
+        if ($this->query("INSERT INTO comments (comment, postId, userId) VALUES (?, ?, ?)", [$comment, $postId, $userId])) {
+            
+            return true;
+        }     
+        else {
+            
+            return false;
+        }
+
+    }
+
 }
 
 ?>

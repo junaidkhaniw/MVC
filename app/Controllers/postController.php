@@ -17,16 +17,20 @@ class postController extends Framework {
         $this->view("postView/viewPosts", $result);
     }
 
-    // public function viewPostsController() {
-        
-    // }
+    public function viewSinglePostControllerPath() {
+
+        $this->view("postView/viewSinglePost");
+    }
 
     public function viewSinglePostController($id) {
 
         $post = $this->postModel->viewSinglePostModel($id);
         $data = [
-            "post" => $post
+            "post" => $post,
+            "comments" => $this->viewCommentsPostController($id),
         ];
+
+        $this->createCommentPostController($id);
         
         $this->view("postView/viewSinglePost", $data);
     }
@@ -121,6 +125,37 @@ class postController extends Framework {
             echo "Not Deleted";
         }
         
+    }
+
+    public function viewCommentsPostController($id) {
+        
+        $result = $this->postModel->viewCommentsPostModel($id);
+        return $result;
+    }
+
+    public function createCommentPostController($id) {
+
+        $commentData = [
+            "postId" => $id,
+            "userId" => $this->getSession("userId"),
+            "comment" => $this->input("comment"),
+            "commentError" => ""
+        ];
+
+        
+
+        if (!empty($commentData["comment"])) {
+
+            if ($this->postModel->createCommentPostModel($commentData["comment"], $commentData["postId"], $commentData["userId"])) {
+                echo "asdasd";
+                $this->setFlash("commentAdded", "Your Comment has been Added successfuly");
+                $this->redirect("/postController/viewSinglePostController/$id");
+            }
+            else {
+                echo "Not Inserted";
+            }
+        }
+    
     }
 
 }
