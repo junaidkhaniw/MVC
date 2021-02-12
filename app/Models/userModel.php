@@ -15,19 +15,6 @@ class userModel extends Database {
 
     }
 
-    public function checkUsernamee($username) {
-
-        if ($this->query("SELECT username FROM users WHERE username = ?", [$username])) {
-            if ($this->rowCount() > 0) {
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
-
-    }
-
     public function checkEmail($email) {
 
         if ($this->query("SELECT email FROM users WHERE email = ?", [$email])) {
@@ -79,6 +66,17 @@ class userModel extends Database {
 
         if ($this->query("SELECT * FROM users")) {
             return $this->fetchAll();
+        }
+        else {
+            return false;
+        }
+
+    }
+
+    public function viewUserProfileModel($id) {
+
+        if ($this->query("SELECT * FROM users WHERE id = ?", [$id])) {
+            return $this->fetch();
         }
         else {
             return false;

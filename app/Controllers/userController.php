@@ -136,6 +136,24 @@ class userController extends Framework {
         $this->view("userView", $result);
     }
 
+    // public function userProfile() {
+    //     # code...
+    // }
+
+    // public function viewUserProfileController($id) {
+        
+    //     $userData = [
+    //         "userId" => $id,
+    //         "name" => "",
+    //         "username" => "",
+    //         "email" => ""
+    //     ];
+        
+    //     if($this->userModel->viewUserProfileModel($userData["userId"], $userData["name  "],$userData["username"],$userData["email"],));
+
+    //     $this->view("profile", $userData);
+    // }
+
 }
 
 ?>
